@@ -13,7 +13,9 @@ import {
   SiRaspberrypi,
   SiIntellijidea,
   SiDocker,
-  SiKubernetes
+  SiKubernetes,
+  SiApple,
+  SiWindows
 } from "react-icons/si";
 import {
   DiJavascript1,
@@ -76,6 +78,12 @@ function Toolstack() {
       </Col>
       <Col xs={4} md={2} className="tech-icons">
         <DiGoogleCloudPlatform />
+      </Col>
+      <Col xs={4} md={2} className="tech-icons">
+        <SiApple />
+      </Col>
+      <Col xs={4} md={2} className="tech-icons">
+        <SiWindows />
       </Col>
     </Row>
   );
