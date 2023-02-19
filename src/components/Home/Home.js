@@ -4,6 +4,7 @@ import homeLogo from "../../Assets/home-main.svg";
 import Particle from "../Particle";
 import Home2 from "./Home2";
 import Type from "./Type";
+import geimg from "../../Assets/ge-htc.png"
 
 function Home() {
   return (
@@ -23,6 +24,11 @@ function Home() {
                 I'm
                 <strong className="main-name"> Aman Kumar Dewangan (AkD)</strong>
               </h1>
+
+              <h5 className="heading-name6">
+                currently working as 
+                <strong className="main-name"> Edison Engineer at GE Healthcare.</strong>
+              </h5>
 
               <div style={{ padding: 50, textAlign: "left", color:"#00e8ba" }}>
                 <Type />

@@ -741,3 +741,11 @@ button:focus {
 .fork-btn-inner::after {
   display: none !important;
 }
+
+.heading-name6 {
+  padding-left: 45px !important;
+}
+
+.companylogo{
+  width: 10rem;
+}
