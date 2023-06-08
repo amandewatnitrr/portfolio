@@ -9,7 +9,8 @@ import {
   DiPython,
   DiArduino,
   DiGit,
-  DiDebian
+  DiDebian,
+  DiJava
 } from "react-icons/di";
 import {
   SiPytorch,
@@ -21,7 +22,8 @@ import {
   SiJava,
   SiRaspberrypi,
   SiGnubash,
-  SiGradle
+  SiGradle,
+  SiDjango
 } from "react-icons/si";
 import {
   FcElectronics
@@ -48,6 +50,9 @@ function Techstack() {
       </Col>
       <Col xs={4} md={2} className="tech-icons">
         <SiWolfram />
+      </Col>
+      <Col xs={4} md={2} className="tech-icons">
+        <SiDjango />
       </Col>
       <Col xs={4} md={2} className="tech-icons">
         <DiGit />
