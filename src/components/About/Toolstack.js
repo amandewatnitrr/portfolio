@@ -15,7 +15,8 @@ import {
   SiDocker,
   SiKubernetes,
   SiApple,
-  SiWindows
+  SiWindows,
+  SiBlender
 } from "react-icons/si";
 import {
   DiJavascript1,
@@ -66,6 +67,9 @@ function Toolstack() {
       </Col>
       <Col xs={4} md={2} className="tech-icons">
         <SiAdobeillustrator />
+      </Col>
+      <Col xs={4} md={2} className="tech-icons">
+        <SiBlender />
       </Col>
       <Col xs={4} md={2} className="tech-icons">
         <SiIntellijidea />
