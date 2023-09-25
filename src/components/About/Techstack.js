@@ -9,8 +9,7 @@ import {
   DiPython,
   DiArduino,
   DiGit,
-  DiDebian,
-  DiJava
+  DiDebian
 } from "react-icons/di";
 import {
   SiPytorch,
@@ -39,9 +38,8 @@ function Techstack() {
         <CgCPlusPlus />
       </Col>
       <Col xs={4} md={2} className="tech-icons">
-        <SiArduino />
+        <SiDjango />
       </Col>
-      
       <Col xs={4} md={2} className="tech-icons">
         <DiJavascript1 />
       </Col>
@@ -52,7 +50,7 @@ function Techstack() {
         <SiWolfram />
       </Col>
       <Col xs={4} md={2} className="tech-icons">
-        <SiDjango />
+        <SiArduino />
       </Col>
       <Col xs={4} md={2} className="tech-icons">
         <DiGit />
