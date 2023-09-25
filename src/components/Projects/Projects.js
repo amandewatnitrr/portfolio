@@ -5,6 +5,7 @@ import Particle from "../Particle";
 import expressiondiff from "../../Assets/Projects/expressiondiff.png";
 import sanjeevani from "../../Assets/Projects/sanjeevani.gif";
 import imhm from "../../Assets/Projects/imhm.png";
+import django_tut from "../../Assets/Projects/Screenshot 2023-04-25 at 4.49.35 PM.png";
 import logitraffic from "../../Assets/Projects/Logitraffic_Dashboard.png";
 
 function Projects() {
@@ -27,6 +28,18 @@ function Projects() {
               description="Sanjeevani is an IoT web-based Real-Time Health Monitoring and Medical Consultation System.
               The IoT system connects to the cloud that lets the authenticated person keep a real-time check on some basic parameters like Heart-Rate, Blood Pressure, Temperature, ECG Function, Glucose Level, Dissolved Oxygen Level, etc. Using Bio-Sensors and Microprocessor that transmits the data to Firebase and Udibots for storage in the database and henceforth is accessible by the authenticated person(doctor and the user)."
               ghLink="https://github.com/amandewatnitrr/Team-X_HealthCare-Sanjeevani"
+            />
+          </Col>
+
+          <Col md={4} className="project-card">
+            <ProjectCard
+              imgPath={django_tut}
+              isBlog={false}
+              title="DevSearch"
+              description="A Platform where Software Developer can share there projects on a platform and get reviews on it from other developers.
+              The Developers can also showcase about there skills over there profile. They can also contact each other via message feature.
+              "
+              ghLink="https://github.com/amandewatnitrr/django-tutorial"
             />
           </Col>
 
