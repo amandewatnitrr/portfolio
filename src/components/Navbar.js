@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CgGitFork } from "react-icons/cg";
 import {
   AiFillStar,
@@ -12,10 +12,17 @@ import {
 } from "react-icons/ai";
 
 import { CgFileDocument } from "react-icons/cg";
+import { warpNavigate } from "./RouteWarpTrigger";
 
 function NavBar() {
   const [expand, updateExpanded] = useState(false);
   const [navColour, updateNavbar] = useState(false);
+  const navigate = useNavigate();
+
+  function goTo(path) {
+    updateExpanded(false);
+    warpNavigate(navigate, path);
+  }
 
   function scrollHandler() {
     if (window.scrollY >= 20) {
@@ -48,7 +55,14 @@ function NavBar() {
           <Nav className="mx-auto align-items-md-center nav-shift-right" defaultActiveKey="#home">
             <div className="nav-links-pill">
               <Nav.Item>
-                <Nav.Link as={Link} to="/" onClick={() => updateExpanded(false)}>
+                <Nav.Link
+                  as={Link}
+                  to="/"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    goTo("/");
+                  }}
+                >
                   <AiOutlineHome style={{ marginBottom: "2px" }} /> Home
                 </Nav.Link>
               </Nav.Item>
@@ -57,7 +71,10 @@ function NavBar() {
                 <Nav.Link
                   as={Link}
                   to="/about"
-                  onClick={() => updateExpanded(false)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    goTo("/about");
+                  }}
                 >
                   <AiOutlineUser style={{ marginBottom: "2px" }} /> About
                 </Nav.Link>
@@ -67,7 +84,10 @@ function NavBar() {
                 <Nav.Link
                   as={Link}
                   to="/project"
-                  onClick={() => updateExpanded(false)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    goTo("/project");
+                  }}
                 >
                   <AiOutlineFundProjectionScreen
                     style={{ marginBottom: "2px" }}
@@ -80,7 +100,10 @@ function NavBar() {
                 <Nav.Link
                   as={Link}
                   to="/resume"
-                  onClick={() => updateExpanded(false)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    goTo("/resume");
+                  }}
                 >
                   <CgFileDocument style={{ marginBottom: "2px" }} /> Resume
                 </Nav.Link>
