@@ -5,10 +5,14 @@ import Techstack from "./Techstack";
 import Aboutcard from "./AboutCard";
 import laptopImg from "../../Assets/about.png";
 import Toolstack from "./Toolstack";
+import BlackholeBackground from "../BlackholeBackground";
 
 function About() {
   return (
     <Container fluid className="about-section">
+      <div className="hero-blackhole-wrap">
+        <BlackholeBackground />
+      </div>
       <Container>
         <Row style={{ justifyContent: "center", padding: "10px" }}>
           <Col

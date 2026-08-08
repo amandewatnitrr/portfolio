@@ -3,15 +3,15 @@ import { Container, Row, Col } from "react-bootstrap";
 import homeLogo from "../../Assets/home-main.svg";
 import Home2 from "./Home2";
 import Type from "./Type";
+import BlackholeBackground from "../BlackholeBackground";
 
 function Home() {
   return (
-    <section>
+    <section style={{ position: "relative" }}>
       <div className="hero-blackhole-wrap">
-        <video autoPlay muted loop playsInline className="blackhole-video">
-          <source src="/videos/blackhole.webm" type="video/webm" />
-        </video>
-        <Container className="home-content">
+        <BlackholeBackground />
+      </div>
+      <Container className="home-content">
           <Row>
             <Col md={7} className="home-header">
               <h1 style={{ paddingBottom: 15 }} className="heading">
@@ -45,8 +45,7 @@ function Home() {
               />
             </Col>
           </Row>
-        </Container>
-      </div>
+      </Container>
 
       <Home2 />
     </section>

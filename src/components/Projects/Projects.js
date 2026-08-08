@@ -6,10 +6,14 @@ import sanjeevani from "../../Assets/Projects/sanjeevani.gif";
 import imhm from "../../Assets/Projects/imhm.png";
 import django_tut from "../../Assets/Projects/Screenshot 2023-04-25 at 4.49.35 PM.png";
 import logitraffic from "../../Assets/Projects/Logitraffic_Dashboard.png";
+import BlackholeBackground from "../BlackholeBackground";
 
 function Projects() {
   return (
     <Container fluid className="project-section">
+      <div className="hero-blackhole-wrap">
+        <BlackholeBackground />
+      </div>
       <Container>
         <h1 className="project-heading">
           My Recent <strong className="purple">Works </strong>
