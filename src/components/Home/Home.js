@@ -7,6 +7,10 @@ import Type from "./Type";
 function Home() {
   return (
     <section>
+      <div className="hero-blackhole-wrap">
+        <video autoPlay muted loop playsInline className="blackhole-video">
+          <source src="/videos/blackhole.webm" type="video/webm" />
+        </video>
         <Container className="home-content">
           <Row>
             <Col md={7} className="home-header">
@@ -42,6 +46,7 @@ function Home() {
             </Col>
           </Row>
         </Container>
+      </div>
 
       <Home2 />
     </section>

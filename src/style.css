@@ -76,11 +76,10 @@ button:focus {
 /* Navbar Section  */
 /* --------- */
 .sticky {
-  background-color: rgba(3, 0, 20, 0.65) !important;
+  background-color: #030014 !important;
   transition: all 0.3s ease-out 0s !important;
-  box-shadow: 0 10px 15px -3px rgba(42, 14, 97, 0.5),
-    0 4px 6px -4px rgba(42, 14, 97, 0.5) !important;
-  backdrop-filter: blur(15px) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
 }
 
 .navbar {
@@ -88,10 +87,9 @@ button:focus {
   transition: all 0.3s ease-out 0s !important;
   padding: 0.3rem 2rem !important;
   font-size: 1.2rem !important;
-  background-color: rgba(3, 0, 20, 0.15) !important;
-  backdrop-filter: blur(12px) !important;
-  box-shadow: 0 10px 15px -3px rgba(42, 14, 97, 0.35),
-    0 4px 6px -4px rgba(42, 14, 97, 0.35) !important;
+  background-color: #030014 !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
 }
 
 .nav-links-pill {
@@ -282,6 +280,35 @@ button:focus {
   padding: 9rem 0 2rem !important;
   color: whitesmoke;
   text-align: left;
+}
+
+.hero-blackhole-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.blackhole-video {
+  position: absolute;
+  left: 50%;
+  top: -130px;
+  width: 55%;
+  height: auto;
+  object-fit: contain;
+  transform: translateX(-50%) rotate(180deg);
+  /* more negative than StarBackground's -10, so the star canvas renders
+     in front of the video (same layering as space-portfolio's -z-20 hero
+     video vs. -z-10 StarsCanvas) */
+  z-index: -20;
+  pointer-events: none;
+  /* screen-blend the video's own near-black background into the page bg,
+     so only the bright glow shows */
+  mix-blend-mode: screen;
+  /* fade the video's rectangular edges to transparent so no hard box
+     outline shows regardless of how dark its background actually is */
+  -webkit-mask-image: radial-gradient(circle, #000 55%, transparent 78%);
+  mask-image: radial-gradient(circle, #000 55%, transparent 78%);
+  /* recolor the stock purple accretion disk to a warm gold/white glow */
+  filter: hue-rotate(125deg) saturate(1.3) brightness(0.9);
 }
 
 .heading {
