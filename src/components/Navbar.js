@@ -45,7 +45,7 @@ function NavBar() {
           <span></span>
         </Navbar.Toggle>
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mx-auto align-items-md-center" defaultActiveKey="#home">
+          <Nav className="mx-auto align-items-md-center nav-shift-right" defaultActiveKey="#home">
             <div className="nav-links-pill">
               <Nav.Item>
                 <Nav.Link as={Link} to="/" onClick={() => updateExpanded(false)}>
