@@ -5,19 +5,13 @@ import {
   DiJavascript1,
   DiReact,
   DiNodejs,
-  DiMongodb,
   DiPython,
-  DiArduino,
   DiGit,
-  DiDebian
 } from "react-icons/di";
 import {
-  SiPytorch,
   SiFirebase,
-  SiNextdotjs,
   SiArduino,
   SiWolfram,
-  SiGithub,
   SiJava,
   SiRaspberrypi,
   SiGnubash,

@@ -19,13 +19,6 @@ import {
   SiBlender
 } from "react-icons/si";
 import {
-  DiJavascript1,
-  DiReact,
-  DiNodejs,
-  DiMongodb,
-  DiPython,
-  DiArduino,
-  DiGit,
   DiDebian,
   DiGoogleCloudPlatform
 } from "react-icons/di";
