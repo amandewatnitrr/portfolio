@@ -76,9 +76,10 @@ button:focus {
 /* Navbar Section  */
 /* --------- */
 .sticky {
-  background-color: #1b1a2ea9 !important;
+  background-color: rgba(3, 0, 20, 0.65) !important;
   transition: all 0.3s ease-out 0s !important;
-  box-shadow: 0px 10px 10px 0px rgba(9, 5, 29, 0.171) !important;
+  box-shadow: 0 10px 15px -3px rgba(42, 14, 97, 0.5),
+    0 4px 6px -4px rgba(42, 14, 97, 0.5) !important;
   backdrop-filter: blur(15px) !important;
 }
 
@@ -87,6 +88,32 @@ button:focus {
   transition: all 0.3s ease-out 0s !important;
   padding: 0.3rem 2rem !important;
   font-size: 1.2rem !important;
+  background-color: rgba(3, 0, 20, 0.15) !important;
+  backdrop-filter: blur(12px) !important;
+  box-shadow: 0 10px 15px -3px rgba(42, 14, 97, 0.35),
+    0 4px 6px -4px rgba(42, 14, 97, 0.35) !important;
+}
+
+.nav-links-pill {
+  display: flex;
+  align-items: center;
+  background-color: rgba(3, 0, 20, 0.37);
+  border: 1px solid rgba(112, 66, 248, 0.38);
+  border-radius: 9999px;
+  padding: 0.35rem 1.3rem;
+  margin-right: 15px;
+}
+
+@media (max-width: 767px) {
+  .nav-links-pill {
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    margin-right: 0;
+  }
 }
 
 .navbar-toggler {
@@ -180,29 +207,19 @@ button:focus {
   margin-left: 20px;
 }
 
+.nav-links-pill .nav-item:first-child {
+  margin-left: 0;
+}
+
 .navbar-nav .nav-item a {
   font-weight: 400;
-  transition: all 0.3s ease-out 0s;
+  transition: color 0.3s ease-out 0s;
   position: relative;
   z-index: 1;
 }
 
-.navbar-nav .nav-item a::after {
-  content: "";
-  position: relative;
-  display: block;
-  height: 5px;
-  width: 0;
-  border-radius: 16px;
-  background: #c95bf5;
-  bottom: 1px;
-  left: 0;
-  z-index: -1;
-  transition: all 0.3s ease-out 0s;
-}
-
-.navbar-nav .nav-item a:hover::after {
-  width: 100%;
+.navbar-nav .nav-item a:hover {
+  color: rgb(112, 66, 248) !important;
 }
 
 /* --------- */
