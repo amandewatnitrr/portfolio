@@ -337,17 +337,24 @@ button:focus {
   padding-left: 45px !important;
 }
 
+@media (min-width: 768px) {
+  .heading-name {
+    white-space: nowrap;
+    font-size: clamp(1.6em, 2.4vw, 2.5em) !important;
+  }
+}
+
 .main-name {
   color: #00e8ba;
 }
 
 .Typewriter__wrapper {
-  font-size: 2.2em !important;
+  font-size: 1.7em !important;
   color: #00e8ba !important;
   font-weight: 600 !important;
 }
 .Typewriter__cursor {
-  font-size: 2.4em !important;
+  font-size: 1.9em !important;
   color: #b562d6 !important;
 }
 

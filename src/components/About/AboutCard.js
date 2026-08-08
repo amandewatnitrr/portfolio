@@ -10,7 +10,7 @@ function AboutCard() {
           <p style={{ textAlign: "justify" }}>
             Hi Everyone, I am <span className="purple"><b>Aman Kumar Dewangan</b> </span>
             from <span className="purple"> Raipur, Chhattisgarh, India.</span>
-            <br />I am currently working as <span className="purple">Edison Engineer in GE Healthcare</span>. I completed my 
+            <br />I am currently working as <span className="purple">Software Developer at GE Healthcare</span>. I completed my 
             <span className="purple"> B.Tech in ELectrical Engineering from National Institute of Technology Raipur.</span>
             <br />
             <br />

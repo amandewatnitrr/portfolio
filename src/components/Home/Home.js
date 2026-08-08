@@ -28,7 +28,7 @@ function Home() {
 
               <h5 className="heading-name6">
                 currently working as 
-                <strong className="main-name"> Edison Engineer at GE Healthcare.</strong>
+                <strong className="main-name">  Software Developer at GE Healthcare.</strong>
               </h5>
 
               <div style={{ padding: 50, textAlign: "left", color:"#00e8ba" }}>
