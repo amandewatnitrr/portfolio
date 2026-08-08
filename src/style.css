@@ -308,7 +308,7 @@ button:focus {
   -webkit-mask-image: radial-gradient(circle, #000 55%, transparent 78%);
   mask-image: radial-gradient(circle, #000 55%, transparent 78%);
   /* recolor the stock purple accretion disk to a warm gold/white glow */
-  filter: hue-rotate(125deg) saturate(1.3) brightness(0.9);
+  filter: hue-rotate(135deg) saturate(1.15) brightness(0.9);
 }
 
 .heading {
