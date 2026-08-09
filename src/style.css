@@ -48,6 +48,23 @@ button:focus {
 }
 
 /* --------- */
+/*  Warp page-content fade  */
+/* --------- */
+/* Old content drops out fast the instant a warp starts, so only the
+   warp animation is on screen mid-flight; new content (already swapped
+   in underneath) eases back in once the warp finishes. */
+.warp-fade {
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+.warp-fade-hidden {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+
+/* --------- */
 /*Scrollbar   */
 /* --------- */
 
@@ -311,8 +328,8 @@ button:focus {
 .blackhole-video {
   position: absolute;
   left: 50%;
-  top: -130px;
-  width: 55%;
+  top: -140px;
+  width: 50%;
   height: auto;
   object-fit: contain;
   transform: translateX(-50%) rotate(180deg);
