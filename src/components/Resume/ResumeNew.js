@@ -3,10 +3,8 @@ import { Container, Row } from "react-bootstrap";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import BlackholeBackground from "../BlackholeBackground";
+import resumeLink from "../../Assets/resume.pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
-
-const resumeLink =
-  "https://raw.githubusercontent.com/amandewatnitrr/portfolio/master/src/Assets/resume.pdf";
 
 function ResumeNew() {
   const [width, setWidth] = useState(1200);

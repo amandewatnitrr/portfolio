@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const experiences = [
   {
@@ -6,14 +10,21 @@ const experiences = [
     company: "GE Healthcare",
     period: "Aug 2022 - Present",
     description:
-      "Migrated application to Microservice Architecture, cutting deployment time by 10%. Built a Python pipeline service, a real-time Grafana dashboard, a document-inquiry chatbot, and a Kafka + Elasticsearch log analysis system. Tech: Java, Groovy, Python, C++, PostgreSQL, Shell Scripting, Jenkins, Grafana.",
+      "Rolled out a real-time Grafana dashboard, cutting incident response time by 40%. Secured service-to-service traffic with Kong API Gateway, then led the migration to APISIX, adding test automation and a secure secret-handling mechanism along the way.",
+  },
+  {
+    position: "Edison Engineer",
+    company: "GE Healthcare",
+    period: "Aug 2022 - Jul 2024",
+    description:
+      "Migrated the application to a Microservice Architecture, cutting deployment time by 10%. Built a Python pipeline service, a document-inquiry chatbot, and a Kafka + Elasticsearch log analysis system to boost data insight generation.",
   },
   {
     position: "Research Intern",
     company: "Wolfram",
     period: "Jun 2021 - Jul 2021",
     description:
-      "Developed a function for aligning two expressions by generating transformation operations that yield identical evaluations, using tree-based representation and computational techniques.",
+      "Designed an expression-alignment algorithm using tree-based representation and transformation operations, resolving mismatched expressions into identical evaluations.",
   },
 ];
 
@@ -24,6 +35,48 @@ const getDisplayYear = (period) => {
 };
 
 function Career() {
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const careerTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".career-section",
+          start: "top 50%",
+          end: "bottom 30%",
+          scrub: 1.5,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      careerTimeline
+        .fromTo(
+          ".career-timeline",
+          { maxHeight: "0%" },
+          { maxHeight: "100%", duration: 1, ease: "none" },
+          0
+        )
+        .fromTo(
+          ".career-timeline",
+          { opacity: 0 },
+          { opacity: 1, duration: 0.2 },
+          0
+        )
+        .fromTo(
+          ".career-info-box",
+          { opacity: 0 },
+          { opacity: 1, stagger: 0.1, duration: 0.5 },
+          0
+        )
+        .fromTo(
+          ".career-dot",
+          { animationIterationCount: "infinite" },
+          { animationIterationCount: "1", delay: 0.3, duration: 0.1 },
+          0
+        );
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <div className="career-section">
       <div className="career-container">
