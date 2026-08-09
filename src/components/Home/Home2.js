@@ -8,6 +8,7 @@ import {
   AiFillInstagram,
 } from "react-icons/ai";
 import { FaLinkedinIn } from "react-icons/fa";
+import Career from "./Career";
 
 function Home2() {
   return (
@@ -58,6 +59,9 @@ function Home2() {
             </Tilt>
           </Col>
         </Row>
+
+        <Career />
+
         <Row>
           <Col md={12} className="home-about-social">
             <h1>FIND ME ON</h1>
