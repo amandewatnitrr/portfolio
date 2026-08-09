@@ -649,13 +649,65 @@ button:focus {
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 50%);
-  background-color: #aa42ff;
+  background: radial-gradient(
+    circle at 35% 30%,
+    #ffffff 0%,
+    #cdd6ff 18%,
+    #6d8bff 45%,
+    #3d5afe 75%,
+    #2233c9 100%
+  );
   width: 10px;
   height: 10px;
-  border-radius: 50px;
-  box-shadow: 0px 0px 5px 2px #d29bff, 0px 0px 15px 8px #d097ff,
-    0px 0px 110px 20px #f2c0ff;
+  border-radius: 50%;
+  box-shadow: 0px 0px 6px 2px #9db4ff, 0px 0px 18px 8px #5b7dff,
+    0px 0px 90px 22px rgba(61, 90, 254, 0.35);
   animation: careerTimeline 0.8s linear infinite forwards;
+  z-index: 2;
+}
+
+/* Meteor tail - broad, blurred streak fading away from the dot */
+.career-dot::before {
+  content: "";
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  width: 5px;
+  height: 130px;
+  background: linear-gradient(
+    to top,
+    rgba(110, 140, 255, 0.9) 0%,
+    rgba(90, 120, 255, 0.55) 30%,
+    rgba(70, 100, 255, 0.2) 65%,
+    rgba(70, 100, 255, 0) 100%
+  );
+  clip-path: polygon(38% 100%, 62% 100%, 100% 0%, 0% 0%);
+  transform: translateX(-50%);
+  transform-origin: bottom center;
+  filter: blur(0.6px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Meteor tail - thin bright core streak, hot and tight */
+.career-dot::after {
+  content: "";
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  width: 2px;
+  height: 55px;
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0.85),
+    rgba(200, 215, 255, 0.35) 50%,
+    rgba(200, 215, 255, 0)
+  );
+  transform: translateX(-50%);
+  transform-origin: bottom center;
+  filter: blur(0.4px);
+  pointer-events: none;
+  z-index: 1;
 }
 
 @keyframes careerTimeline {
@@ -664,7 +716,7 @@ button:focus {
   50%,
   70%,
   90% {
-    box-shadow: 0px 0px 5px 2px #d29bff;
+    box-shadow: 0px 0px 6px 2px #9db4ff;
   }
 
   10%,
@@ -673,8 +725,8 @@ button:focus {
   100%,
   64%,
   80% {
-    box-shadow: 0px 0px 5px 2px #d29bff, 0px 0px 15px 5px #d097ff,
-      0px 0px 110px 20px #f2c0ff;
+    box-shadow: 0px 0px 6px 2px #9db4ff, 0px 0px 18px 8px #5b7dff,
+      0px 0px 90px 22px rgba(61, 90, 254, 0.35);
   }
 }
 
