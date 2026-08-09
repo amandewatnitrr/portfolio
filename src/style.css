@@ -138,12 +138,25 @@ button:focus {
 @media (max-width: 767px) {
   .nav-links-pill {
     flex-direction: column;
-    align-items: flex-start;
-    background-color: transparent;
-    border: none;
-    border-radius: 0;
-    padding: 0;
-    margin-right: 0;
+    align-items: stretch;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 170, 80, 0.1) 0%,
+      rgba(16, 9, 26, 0.9) 55%,
+      rgba(16, 9, 26, 0.96) 100%
+    );
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 170, 80, 0.25);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45),
+      inset 0 1px 0 rgba(255, 220, 180, 0.15);
+    border-radius: 18px;
+    padding: 0.4rem 0.5rem;
+    margin: 0.5rem 0 0;
+  }
+
+  .navbar-nav .nav-item {
+    margin-left: 0 !important;
   }
 }
 
@@ -200,9 +213,18 @@ button:focus {
 
 @media (max-width: 767px) {
   .navbar {
-    padding: 1rem 2rem !important;
-    font-size: 1.4rem !important;
-    background-color: #181a27 !important;
+    padding: 0.6rem 1.1rem !important;
+    font-size: 1.2rem !important;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 170, 80, 0.14) 0%,
+      rgba(14, 8, 22, 0.78) 55%,
+      rgba(14, 8, 22, 0.9) 100%
+    ) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border-bottom: 1px solid rgba(255, 170, 80, 0.3) !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35) !important;
   }
   .navbar-nav .nav-item a::after {
     display: none !important;
@@ -328,7 +350,16 @@ button:focus {
 .blackhole-video {
   position: absolute;
   left: 50%;
-  top: -140px;
+  /* Video scales with viewport width (width: 50% below), but its own
+     aspect ratio means height scales too — a fixed px top offset only
+     lines the ring up with the navbar's bottom edge at one specific
+     width. This scales the offset with viewport width (vw) so the ring
+     sits tangent to the pill's base at every width: navbar-bottom (~72px,
+     itself width-independent) minus the fraction of the video's height
+     that sits above the ring, expressed in vw since height = width *
+     aspect ratio. Coefficients derived from the desktop reference
+     position (top:-140px @ 50% width) — don't retune without re-deriving. */
+  top: calc(72.4px - 13.9vw);
   width: 50%;
   height: auto;
   object-fit: contain;
@@ -347,6 +378,23 @@ button:focus {
   mask-image: radial-gradient(ellipse, #000 45%, transparent 75%);
   /* recolor the stock purple accretion disk to a warm gold/white glow */
   filter: hue-rotate(135deg) saturate(1.15) brightness(0.9);
+}
+
+@media (max-width: 767px) {
+  /* Keep the same width (50%, matching the base rule) so mobile shows the
+     exact same ring crop/zoom as desktop — widening it here previously
+     blew the ring up too large relative to the screen. Mobile's navbar is
+     a flat bar (~62px) instead of the desktop pill (~72px), so only the
+     px constant changes; the vw coefficient stays 13.9 to match the base
+     rule's framing exactly. */
+  .hero-blackhole-wrap {
+    height: 420px;
+  }
+
+  .blackhole-video {
+    width: 50%;
+    top: calc(62.2px - 13.9vw);
+  }
 }
 
 .heading {
