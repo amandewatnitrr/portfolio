@@ -359,7 +359,7 @@ button:focus {
      that sits above the ring, expressed in vw since height = width *
      aspect ratio. Coefficients derived from the desktop reference
      position (top:-140px @ 50% width) — don't retune without re-deriving. */
-  top: calc(72.4px - 13.9vw);
+  top: calc(72.4px - 14vw);
   width: 50%;
   height: auto;
   object-fit: contain;
