@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 import Github from "./Github";
-import Techstack from "./Techstack";
+import TechStackPyramid from "./TechStackPyramid";
 import Toolstack from "./Toolstack";
 import BlackholeBackground from "../BlackholeBackground";
 
@@ -12,11 +12,7 @@ function About() {
         <BlackholeBackground />
       </div>
       <Container>
-        <h1 className="project-heading">
-          Professional <strong className="purple">Skillset </strong>
-        </h1>
-
-        <Techstack />
+        <TechStackPyramid />
 
         <h1 className="project-heading">
           <strong className="purple">Tools</strong> I use

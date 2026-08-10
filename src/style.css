@@ -1269,6 +1269,89 @@ button:focus {
   line-height: 1.6 !important;
 }
 
+/* Tech stack pyramid - layout/styling ported from portfolio-website's
+   TechStackNew, minus its video background (kept this page's own
+   BlackholeBackground instead). */
+.techstack-pyramid-section {
+  padding-bottom: 30px;
+}
+
+.techstack-pyramid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.techstack-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.techstack-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 90px;
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1.7px solid rgba(200, 137, 230, 0.4);
+  box-shadow: 4px 5px 4px 3px rgba(89, 4, 168, 0.137);
+  transition: all 0.3s ease;
+}
+
+.techstack-item:hover {
+  transform: translateY(-6px) scale(1.06);
+  border-color: rgba(200, 137, 230, 0.9);
+  box-shadow: 0 8px 30px rgba(200, 137, 230, 0.3);
+}
+
+.techstack-item svg {
+  width: 32px;
+  height: 32px;
+  color: white;
+  opacity: 0.9;
+}
+
+.techstack-item span {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 6px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 72px;
+}
+
+.techstack-item:hover span {
+  color: white;
+}
+
+@media (max-width: 767px) {
+  .techstack-item {
+    width: 64px;
+    height: 74px;
+    padding: 8px;
+  }
+
+  .techstack-item svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .techstack-item span {
+    font-size: 8px;
+    max-width: 58px;
+  }
+}
+
 .quote-card-view {
   border: none !important;
   color: white !important;

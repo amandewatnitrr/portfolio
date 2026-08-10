@@ -12,7 +12,7 @@ import {
   SiArduino,
   SiWolframmathematica,
 } from "react-icons/si";
-import { FaUserSecret, FaMicrochip } from "react-icons/fa6";
+import { FaUserSecret, FaMicrochip } from "react-icons/fa";
 
 // Maps tech-pill label -> icon component, so BentoGridItem can render
 // a brand icon next to each label in the "My tech stack" card.
