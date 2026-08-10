@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Preloader from "../src/components/Pre";
 import StarBackground from "./components/StarBackground";
+import SpaceCursor from "./components/SpaceCursor";
 import RouteWarpTrigger, { useWarpVisible } from "./components/RouteWarpTrigger";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home/Home";
@@ -34,6 +35,7 @@ function App() {
   return (
     <Router>
       <StarBackground />
+      <SpaceCursor />
       <RouteWarpTrigger />
       <Preloader load={load} />
       <div className="App" id={load ? "no-scroll" : "scroll"}>
