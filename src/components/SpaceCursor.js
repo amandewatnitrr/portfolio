@@ -6,15 +6,19 @@ import {
   clearCursor,
 } from "../lib/spaceCursorState";
 
-// Renders a small blackhole graphic that replaces the native cursor on
-// fine-pointer, non-reduced-motion devices, and feeds raw mouse position
-// into spaceCursorState.js so StarBackground.js can warp the starfield
-// toward it. Disabled entirely on touch/coarse pointers and when
-// prefers-reduced-motion is set (renders nothing, native cursor untouched).
+// Renders a small blackhole graphic that follows the pointer — a mouse on
+// desktop, a finger on touch — and feeds its position into
+// spaceCursorState.js so StarBackground.js can warp the starfield toward
+// it. Disabled only when prefers-reduced-motion is set (renders nothing,
+// native cursor untouched).
 //
-// Click squish is ported from the reference "Black Hole cursor" codepen
-// (codepen.io/ben4ali/pen/JjqdOyB): scale up on mousedown, back down on
-// mouseup, both with GSAP's "back" ease, on any click anywhere — not
+// On touch, the cursor appears under the finger while touching and fades
+// out the instant it lifts (there's no persistent pointer to track between
+// touches, unlike a mouse that keeps hovering).
+//
+// Click/tap squish is ported from the reference "Black Hole cursor"
+// codepen (codepen.io/ben4ali/pen/JjqdOyB): scale up on press, back down
+// on release, both with GSAP's "back" ease, anywhere on the page — not
 // gated to buttons/links.
 function SpaceCursor() {
   // Outer element is the positioning anchor (moved via translate3d every
@@ -62,10 +66,55 @@ function SpaceCursor() {
       gsap.to(dotRef.current, { scale: 1, duration: 0.2, ease: "back" });
     };
 
+    // Touch has no hover, so a tap must snap the anchor straight to the
+    // finger (bypassing the lerp) — otherwise the very first frame would
+    // visibly fly in from wherever `current` last was (0,0, or the last
+    // spot a mouse pointer was).
+    const handleTouchStart = (event) => {
+      const touch = event.touches[0];
+      if (!touch) return;
+      target.current.x = touch.clientX;
+      target.current.y = touch.clientY;
+      current.current.x = touch.clientX;
+      current.current.y = touch.clientY;
+      setCursorPosition(touch.clientX, touch.clientY);
+      if (anchorRef.current) {
+        anchorRef.current.style.opacity = "1";
+        anchorRef.current.style.transform = `translate3d(${touch.clientX}px, ${touch.clientY}px, 0)`;
+      }
+      if (dotRef.current) {
+        gsap.to(dotRef.current, { scale: 2, duration: 0.25, ease: "back" });
+      }
+    };
+
+    const handleTouchMove = (event) => {
+      const touch = event.touches[0];
+      if (!touch) return;
+      target.current.x = touch.clientX;
+      target.current.y = touch.clientY;
+      setCursorPosition(touch.clientX, touch.clientY);
+    };
+
+    const handleTouchEnd = () => {
+      clearCursor();
+      if (anchorRef.current) {
+        anchorRef.current.style.opacity = "0";
+      }
+      if (dotRef.current) {
+        gsap.to(dotRef.current, { scale: 1, duration: 0.2, ease: "back" });
+      }
+    };
+
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseleave", handleMouseLeave);
     document.addEventListener("mousedown", handleMouseDown);
     document.addEventListener("mouseup", handleMouseUp);
+    // passive: true — these never call preventDefault, so the browser
+    // shouldn't block scrolling/panning waiting to find out.
+    document.addEventListener("touchstart", handleTouchStart, { passive: true });
+    document.addEventListener("touchmove", handleTouchMove, { passive: true });
+    document.addEventListener("touchend", handleTouchEnd, { passive: true });
+    document.addEventListener("touchcancel", handleTouchEnd, { passive: true });
 
     const LERP_FACTOR = 0.2;
     const animate = () => {
@@ -83,6 +132,10 @@ function SpaceCursor() {
       document.removeEventListener("mouseleave", handleMouseLeave);
       document.removeEventListener("mousedown", handleMouseDown);
       document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("touchstart", handleTouchStart);
+      document.removeEventListener("touchmove", handleTouchMove);
+      document.removeEventListener("touchend", handleTouchEnd);
+      document.removeEventListener("touchcancel", handleTouchEnd);
       cancelAnimationFrame(frameId.current);
       document.body.style.cursor = "";
     };

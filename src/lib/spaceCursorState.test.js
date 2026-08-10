@@ -5,10 +5,9 @@ import {
   isSpaceCursorEnabled,
 } from "./spaceCursorState";
 
-function mockMatchMedia({ pointerFine, reducedMotion }) {
+function mockMatchMedia(reducedMotion) {
   window.matchMedia = jest.fn().mockImplementation((query) => ({
-    matches:
-      query === "(pointer: fine)" ? pointerFine : reducedMotion,
+    matches: reducedMotion,
     media: query,
     addListener: jest.fn(),
     removeListener: jest.fn(),
@@ -33,18 +32,13 @@ describe("spaceCursorState", () => {
     expect(cursorState.y).toBe(6);
   });
 
-  test("isSpaceCursorEnabled is true for fine pointer + no reduced motion", () => {
-    mockMatchMedia({ pointerFine: true, reducedMotion: false });
+  test("isSpaceCursorEnabled is true when reduced motion is not requested", () => {
+    mockMatchMedia(false);
     expect(isSpaceCursorEnabled()).toBe(true);
   });
 
-  test("isSpaceCursorEnabled is false for coarse pointer (touch)", () => {
-    mockMatchMedia({ pointerFine: false, reducedMotion: false });
-    expect(isSpaceCursorEnabled()).toBe(false);
-  });
-
   test("isSpaceCursorEnabled is false when reduced motion is requested", () => {
-    mockMatchMedia({ pointerFine: true, reducedMotion: true });
+    mockMatchMedia(true);
     expect(isSpaceCursorEnabled()).toBe(false);
   });
 });
