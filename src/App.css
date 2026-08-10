@@ -36,3 +36,24 @@
     transform: rotate(360deg);
   }
 }
+
+/* Blackhole cursor (SpaceCursor.js) — replaces native cursor on desktop
+   pointers when motion is not reduced. Positioned via transform (not
+   left/top) for GPU-accelerated, jank-free tracking. */
+.space-cursor {
+  position: fixed;
+  top: -9px;
+  left: -9px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #000;
+  box-shadow:
+    0 0 0 2px #ffddaa,
+    0 0 12px 4px rgba(255, 221, 170, 0.6);
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  will-change: transform;
+}
