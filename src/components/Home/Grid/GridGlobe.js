@@ -77,6 +77,18 @@ const sampleArcs = [
   { order: 14, startLat: -33.936138, startLng: 18.436529, endLat: 21.395643, endLng: 39.883798, arcAlt: 0.3, color: colors[Math.floor(Math.random() * (colors.length - 1))] },
 ];
 
+// No requestIdleCallback in Safari; setTimeout(fn, 1) is the standard fallback.
+// Bound to window - native timer functions throw "Illegal invocation" if
+// called detached from their owning object.
+const scheduleIdle =
+  typeof window !== "undefined" && window.requestIdleCallback
+    ? window.requestIdleCallback.bind(window)
+    : (fn) => window.setTimeout(fn, 1);
+const cancelIdle =
+  typeof window !== "undefined" && window.cancelIdleCallback
+    ? window.cancelIdleCallback.bind(window)
+    : window.clearTimeout.bind(window);
+
 function GridGlobe() {
   const mountRef = useRef(null);
 
@@ -84,7 +96,32 @@ function GridGlobe() {
     const mount = mountRef.current;
     if (!mount) return undefined;
 
-    const width = mount.clientWidth || 1;
+    // Building the globe (hex-polygon geometry from full country geojson,
+    // a second WebGL context, its own rAF loop) is heavy synchronous work.
+    // Home mounts this the instant the route changes, right as the
+    // route-warp fade-in and StarBackground's own rAF loop are already
+    // competing for the main thread — doing it inline here caused the
+    // stutter reported when navigating to Home. Deferring construction to
+    // an idle callback lets that transition paint first.
+    let disposed = false;
+    let cleanup = () => {};
+    const idleId = scheduleIdle(() => {
+      if (disposed) return;
+      cleanup = setupGlobe(mount);
+    });
+
+    return () => {
+      disposed = true;
+      cancelIdle(idleId);
+      cleanup();
+    };
+  }, []);
+
+  return <div ref={mountRef} className="grid-globe-canvas" />;
+}
+
+function setupGlobe(mount) {
+  const width = mount.clientWidth || 1;
     const height = mount.clientHeight || 1;
 
     const scene = new THREE.Scene();
@@ -217,9 +254,6 @@ function GridGlobe() {
       mount.removeChild(renderer.domElement);
       renderer.dispose();
     };
-  }, []);
-
-  return <div ref={mountRef} className="grid-globe-canvas" />;
 }
 
 export default GridGlobe;

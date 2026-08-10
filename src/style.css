@@ -347,6 +347,17 @@ button:focus {
   pointer-events: none;
 }
 
+@keyframes blackhole-grow-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) rotate(180deg) scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) rotate(180deg) scale(1);
+  }
+}
+
 .blackhole-video {
   position: absolute;
   left: 50%;
@@ -364,6 +375,11 @@ button:focus {
   height: auto;
   object-fit: contain;
   transform: translateX(-50%) rotate(180deg);
+  transform-origin: center;
+  /* grows from nothing to its final size on load, so the blackhole feels
+     like it forms rather than just appearing; final state (opacity 1,
+     scale 1) matches the transform above exactly */
+  animation: blackhole-grow-in 1.5s ease-out both;
   /* more negative than StarBackground's -10, so the star canvas renders
      in front of the video (same layering as space-portfolio's -z-20 hero
      video vs. -z-10 StarsCanvas) */
@@ -378,6 +394,12 @@ button:focus {
   mask-image: radial-gradient(ellipse, #000 45%, transparent 75%);
   /* recolor the stock purple accretion disk to a warm gold/white glow */
   filter: hue-rotate(135deg) saturate(1.15) brightness(0.9);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blackhole-video {
+    animation: none;
+  }
 }
 
 @media (max-width: 767px) {
