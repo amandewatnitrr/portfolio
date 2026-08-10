@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
 import {
   isSpaceCursorEnabled,
   setCursorPosition,
@@ -7,16 +8,21 @@ import {
 
 // Renders a small blackhole graphic that replaces the native cursor on
 // fine-pointer, non-reduced-motion devices, and feeds raw mouse position
-// into spaceCursorState.js so StarBackground.js can pull nearby stars
+// into spaceCursorState.js so StarBackground.js can warp the starfield
 // toward it. Disabled entirely on touch/coarse pointers and when
 // prefers-reduced-motion is set (renders nothing, native cursor untouched).
-// Elements a click on should trigger the warp-pulse burst.
-const INTERACTIVE_SELECTOR =
-  'button, a, [role="button"], input[type="submit"], input[type="button"]';
-
+//
+// Click squish is ported from the reference "Black Hole cursor" codepen
+// (codepen.io/ben4ali/pen/JjqdOyB): scale up on mousedown, back down on
+// mouseup, both with GSAP's "back" ease, on any click anywhere — not
+// gated to buttons/links.
 function SpaceCursor() {
+  // Outer element is the positioning anchor (moved via translate3d every
+  // rAF frame). The inner element carries the visual look and is scaled by
+  // GSAP independently, so the two animations never fight over `transform`
+  // on the same node.
+  const anchorRef = useRef(null);
   const dotRef = useRef(null);
-  const pulseRef = useRef(null);
   // Raw target position, updated synchronously on mousemove.
   const target = useRef({ x: 0, y: 0 });
   // Current rendered (lerped) position — trails the target slightly so the
@@ -34,44 +40,39 @@ function SpaceCursor() {
       target.current.x = event.clientX;
       target.current.y = event.clientY;
       setCursorPosition(event.clientX, event.clientY);
-      if (dotRef.current) {
-        dotRef.current.style.opacity = "1";
+      if (anchorRef.current) {
+        anchorRef.current.style.opacity = "1";
       }
     };
 
     const handleMouseLeave = () => {
       clearCursor();
-      if (dotRef.current) {
-        dotRef.current.style.opacity = "0";
+      if (anchorRef.current) {
+        anchorRef.current.style.opacity = "0";
       }
     };
 
-    // Warp-pulse burst: a ring that snaps to full size then expands out
-    // while fading, centered on the clicked interactive element. Restarting
-    // a CSS animation requires a reflow between removing and re-adding it,
-    // since the browser no-ops re-setting the same animation name.
-    const handleClick = (event) => {
-      if (!event.target.closest(INTERACTIVE_SELECTOR)) return;
-      const pulse = pulseRef.current;
-      if (!pulse) return;
-      pulse.style.left = `${event.clientX}px`;
-      pulse.style.top = `${event.clientY}px`;
-      pulse.style.animation = "none";
-      // eslint-disable-next-line no-unused-expressions
-      pulse.offsetWidth; // force reflow so the animation restarts
-      pulse.style.animation = "space-cursor-pulse 0.6s ease-out";
+    const handleMouseDown = () => {
+      if (!dotRef.current) return;
+      gsap.to(dotRef.current, { scale: 2, duration: 0.25, ease: "back" });
+    };
+
+    const handleMouseUp = () => {
+      if (!dotRef.current) return;
+      gsap.to(dotRef.current, { scale: 1, duration: 0.2, ease: "back" });
     };
 
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseleave", handleMouseLeave);
-    document.addEventListener("click", handleClick);
+    document.addEventListener("mousedown", handleMouseDown);
+    document.addEventListener("mouseup", handleMouseUp);
 
     const LERP_FACTOR = 0.2;
     const animate = () => {
       current.current.x += (target.current.x - current.current.x) * LERP_FACTOR;
       current.current.y += (target.current.y - current.current.y) * LERP_FACTOR;
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${current.current.x}px, ${current.current.y}px, 0)`;
+      if (anchorRef.current) {
+        anchorRef.current.style.transform = `translate3d(${current.current.x}px, ${current.current.y}px, 0)`;
       }
       frameId.current = requestAnimationFrame(animate);
     };
@@ -80,7 +81,8 @@ function SpaceCursor() {
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseleave", handleMouseLeave);
-      document.removeEventListener("click", handleClick);
+      document.removeEventListener("mousedown", handleMouseDown);
+      document.removeEventListener("mouseup", handleMouseUp);
       cancelAnimationFrame(frameId.current);
       document.body.style.cursor = "";
     };
@@ -91,10 +93,9 @@ function SpaceCursor() {
   }
 
   return (
-    <>
+    <div ref={anchorRef} className="space-cursor-anchor">
       <div ref={dotRef} className="space-cursor" />
-      <div ref={pulseRef} className="space-cursor-pulse" />
-    </>
+    </div>
   );
 }
 

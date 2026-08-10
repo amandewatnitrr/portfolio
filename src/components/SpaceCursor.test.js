@@ -2,6 +2,13 @@ import { render, fireEvent, cleanup } from "@testing-library/react";
 import SpaceCursor from "./SpaceCursor";
 import { cursorState } from "../lib/spaceCursorState";
 
+jest.mock("gsap", () => ({
+  __esModule: true,
+  default: { to: jest.fn() },
+}));
+// eslint-disable-next-line import/first
+import gsap from "gsap";
+
 function mockMatchMedia(enabled) {
   window.matchMedia = jest.fn().mockImplementation((query) => ({
     matches: query === "(pointer: fine)" ? enabled : false,
@@ -15,6 +22,7 @@ describe("SpaceCursor", () => {
   afterEach(() => {
     cleanup();
     document.body.style.cursor = "";
+    gsap.to.mockClear();
   });
 
   test("renders nothing and leaves native cursor alone when disabled", () => {
@@ -46,6 +54,26 @@ describe("SpaceCursor", () => {
     fireEvent.mouseMove(document, { clientX: 10, clientY: 10 });
     fireEvent.mouseLeave(document);
     expect(cursorState.active).toBe(false);
+  });
+
+  test("mousedown scales the cursor up via gsap (ported from reference codepen)", () => {
+    mockMatchMedia(true);
+    render(<SpaceCursor />);
+    fireEvent.mouseDown(document);
+    expect(gsap.to).toHaveBeenCalledWith(
+      expect.any(HTMLElement),
+      expect.objectContaining({ scale: 2, duration: 0.25, ease: "back" })
+    );
+  });
+
+  test("mouseup scales the cursor back down via gsap", () => {
+    mockMatchMedia(true);
+    render(<SpaceCursor />);
+    fireEvent.mouseUp(document);
+    expect(gsap.to).toHaveBeenCalledWith(
+      expect.any(HTMLElement),
+      expect.objectContaining({ scale: 1, duration: 0.2, ease: "back" })
+    );
   });
 
   test("unmount restores native cursor", () => {

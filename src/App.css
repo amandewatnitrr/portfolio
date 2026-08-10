@@ -38,19 +38,36 @@
 }
 
 /* Blackhole cursor (SpaceCursor.js) — replaces native cursor on desktop
-   pointers when motion is not reduced. Positioned via transform (not
-   left/top) for GPU-accelerated, jank-free tracking.
+   pointers when motion is not reduced.
+   Anchor is the positioning node: moved via translate3d every rAF frame
+   (GPU-accelerated, jank-free tracking) and fades in/out on enter/leave. */
+.space-cursor-anchor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  will-change: transform;
+}
+
+/* Visual node, offset to center on the anchor. Scaled independently by
+   GSAP on mousedown/mouseup (transform-origin: center keeps it centered
+   through the scale) — ported click behavior from the reference "Black
+   Hole cursor" codepen (codepen.io/ben4ali/pen/JjqdOyB).
    Look: solid black event horizon, a bright white-hot ring hugging it,
    fading out through orange/red into transparent — same banding as a real
    accretion-disk photo, just compressed into a ~34px dot. Gradient does
    all the work; box-shadow only adds soft bleed onto the page behind it. */
 .space-cursor {
-  position: fixed;
+  position: absolute;
   top: -17px;
   left: -17px;
   width: 34px;
   height: 34px;
   border-radius: 50%;
+  transform-origin: center;
   background: radial-gradient(
     circle at center,
     #000 0%,
@@ -64,34 +81,4 @@
     rgba(255, 90, 31, 0) 100%
   );
   box-shadow: 0 0 22px 6px rgba(255, 130, 50, 0.45);
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  will-change: transform;
-}
-
-/* Warp-pulse burst on clicking a button/link — a ring that expands out
-   from the click point and fades, echoing the starfield's gravity warp. */
-.space-cursor-pulse {
-  position: fixed;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: 2px solid #ffddaa;
-  pointer-events: none;
-  z-index: 9998;
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0);
-}
-
-@keyframes space-cursor-pulse {
-  0% {
-    opacity: 0.9;
-    transform: translate(-50%, -50%) scale(0.5);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(9);
-  }
 }

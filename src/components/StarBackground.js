@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { computePullOffset, PULL_RADIUS } from "../lib/starGravity";
 import { cursorState } from "../lib/spaceCursorState";
 
 // Same uniform-in-sphere sampling maath's random.inSphere uses, inlined
@@ -21,6 +20,48 @@ function randomInSphere(buffer, radius) {
   }
   return buffer;
 }
+
+// Gravity-lens distortion pass: the star scene renders into `renderTarget`,
+// then this fullscreen shader re-samples that texture with UVs pulled
+// toward the cursor, so pixels (not just star positions) visibly bend
+// around the blackhole cursor — same technique as the "Black Hole cursor"
+// codepen (github.com/ben4ali, codepen.io/ben4ali/pen/JjqdOyB): pull
+// strength falls off as 1/distance from the cursor.
+const DISTORTION_VERTEX_SHADER = `
+  varying vec2 vUv;
+  void main() {
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
+
+const DISTORTION_FRAGMENT_SHADER = `
+  uniform vec2 u_mouse;
+  uniform vec2 u_resolution;
+  uniform sampler2D u_texture;
+  uniform float u_force;
+  varying vec2 vUv;
+
+  void main() {
+    vec2 st = vUv;
+    vec2 mouse = u_mouse / u_resolution;
+    mouse.y = 1.0 - mouse.y;
+
+    float aspectRatio = u_resolution.x / u_resolution.y;
+    vec2 scaledSt = st * vec2(aspectRatio, 1.0);
+    float dist = distance(scaledSt, mouse * vec2(aspectRatio, 1.0));
+
+    float distortion = u_force / max(dist, 0.0001);
+    vec2 distortedUv = st + (mouse - st) * distortion;
+    gl_FragColor = texture2D(u_texture, distortedUv);
+  }
+`;
+
+// How strongly space bends toward the cursor once fully active. Matches
+// the feel of the reference codepen (u_force = 0.08 there, tuned down
+// slightly since our scene is sparse points on transparent black rather
+// than a full-bleed photo, so the same force reads stronger here).
+const BASE_DISTORTION_FORCE = 0.065;
 
 // Ported from space-portfolio's components/main/star-background.tsx
 // (react-three-fiber rotating star sphere), rebuilt in plain three.js
@@ -60,13 +101,7 @@ function StarBackground() {
     const STAR_COUNT = 5000;
     const sphere = randomInSphere(new Float32Array(STAR_COUNT), 1.2);
     const geometry = new THREE.BufferGeometry();
-    // Per-star rendered position, recomputed from `sphere` (rest positions)
-    // each frame that gravity pull is active. Kept separate from `sphere`
-    // so the pull never permanently mutates rest positions — it always
-    // eases back the instant the cursor moves away, by construction.
-    const renderPositions = new Float32Array(sphere.length);
-    renderPositions.set(sphere);
-    geometry.setAttribute("position", new THREE.BufferAttribute(renderPositions, 3));
+    geometry.setAttribute("position", new THREE.BufferAttribute(sphere, 3));
 
     const material = new THREE.PointsMaterial({
       color: 0xffffff,
@@ -117,6 +152,43 @@ function StarBackground() {
     const streaks = new THREE.LineSegments(streakGeometry, streakMaterial);
     group.add(streaks);
 
+    // --- Gravity-lens post-process pass ---
+    // The star scene above renders into this offscreen target instead of
+    // straight to the screen; a fullscreen quad then re-samples it with
+    // the distortion shader and that's what actually reaches the canvas.
+    const pixelRatio = renderer.getPixelRatio();
+    const renderTarget = new THREE.WebGLRenderTarget(
+      window.innerWidth * pixelRatio,
+      window.innerHeight * pixelRatio,
+      { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter }
+    );
+
+    const postScene = new THREE.Scene();
+    const postCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    const distortionMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        u_mouse: { value: new THREE.Vector2(0, 0) },
+        u_resolution: {
+          value: new THREE.Vector2(window.innerWidth, window.innerHeight),
+        },
+        u_texture: { value: renderTarget.texture },
+        u_force: { value: 0 },
+      },
+      vertexShader: DISTORTION_VERTEX_SHADER,
+      fragmentShader: DISTORTION_FRAGMENT_SHADER,
+      transparent: true,
+    });
+    const postPlane = new THREE.Mesh(
+      new THREE.PlaneGeometry(2, 2),
+      distortionMaterial
+    );
+    postScene.add(postPlane);
+
+    // Eases the distortion force in/out over a few frames instead of
+    // snapping, so the warp doesn't pop when the cursor enters/leaves the
+    // window or the feature is inactive.
+    let currentForce = 0;
+
     const clock = new THREE.Clock();
     let frameId;
 
@@ -154,46 +226,6 @@ function StarBackground() {
       streaks.rotation.x = points.rotation.x;
       streaks.rotation.y = points.rotation.y;
 
-      // Blackhole cursor gravity pull (SpaceCursor.js writes cursorState).
-      // Cursor's screen position is converted to the star sphere's
-      // normalized scene space by mapping [0, innerWidth] / [0, innerHeight]
-      // to roughly [-1, 1], matching the sphere's radius-1.2 scale.
-      if (cursorState.active) {
-        const cursorSceneX = (cursorState.x / window.innerWidth) * 2 - 1;
-        const cursorSceneY = -((cursorState.y / window.innerHeight) * 2 - 1);
-        const cursorSceneZ = 0;
-
-        let anyPulled = false;
-        for (let i = 0; i < sphere.length; i += 3) {
-          const sx = sphere[i];
-          const sy = sphere[i + 1];
-          const sz = sphere[i + 2];
-          const roughDist = Math.abs(sx - cursorSceneX) + Math.abs(sy - cursorSceneY);
-          if (roughDist > PULL_RADIUS * 2) {
-            renderPositions[i] = sx;
-            renderPositions[i + 1] = sy;
-            renderPositions[i + 2] = sz;
-            continue;
-          }
-          const offset = computePullOffset(
-            sx, sy, sz,
-            cursorSceneX, cursorSceneY, cursorSceneZ
-          );
-          renderPositions[i] = sx + offset.dx;
-          renderPositions[i + 1] = sy + offset.dy;
-          renderPositions[i + 2] = sz + offset.dz;
-          anyPulled = anyPulled || offset.dx !== 0 || offset.dy !== 0 || offset.dz !== 0;
-        }
-        if (anyPulled) {
-          geometry.attributes.position.needsUpdate = true;
-        }
-      } else if (renderPositions[0] !== sphere[0]) {
-        // Cursor inactive (mouse left window / feature disabled): snap
-        // back to rest positions once, then stop touching the buffer.
-        renderPositions.set(sphere);
-        geometry.attributes.position.needsUpdate = true;
-      }
-
       if (warpIntensity > 0) {
         const streakLength = warpIntensity * 1.6;
         const pos = streakGeometry.attributes.position.array;
@@ -217,7 +249,22 @@ function StarBackground() {
         camera.updateProjectionMatrix();
       }
 
+      // Blackhole cursor gravity-lens warp (SpaceCursor.js writes
+      // cursorState). Render the star scene to the offscreen target, then
+      // draw the distortion pass sampling it — the actual pixels bend
+      // toward the cursor, not just the star positions.
+      const targetForce = cursorState.active ? BASE_DISTORTION_FORCE : 0;
+      currentForce += (targetForce - currentForce) * 0.15;
+
+      renderer.setRenderTarget(renderTarget);
+      renderer.clear(true, true, true);
       renderer.render(scene, camera);
+      renderer.setRenderTarget(null);
+
+      distortionMaterial.uniforms.u_mouse.value.set(cursorState.x, cursorState.y);
+      distortionMaterial.uniforms.u_force.value = currentForce;
+      renderer.render(postScene, postCamera);
+
       frameId = requestAnimationFrame(animate);
     };
     animate();
@@ -226,6 +273,13 @@ function StarBackground() {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
+
+      const ratio = renderer.getPixelRatio();
+      renderTarget.setSize(window.innerWidth * ratio, window.innerHeight * ratio);
+      distortionMaterial.uniforms.u_resolution.value.set(
+        window.innerWidth,
+        window.innerHeight
+      );
     };
     window.addEventListener("resize", handleResize);
 
@@ -238,6 +292,9 @@ function StarBackground() {
       material.dispose();
       streakGeometry.dispose();
       streakMaterial.dispose();
+      renderTarget.dispose();
+      postPlane.geometry.dispose();
+      distortionMaterial.dispose();
       renderer.dispose();
     };
   }, []);
