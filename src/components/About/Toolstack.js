@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import {
   SiLinux,
-  SiVisualstudiocode,
+  SiVsco,
   SiPostman,
   SiHeroku,
   SiVercel,
@@ -15,12 +15,12 @@ import {
   SiDocker,
   SiKubernetes,
   SiApple,
-  SiWindows,
   SiBlender
 } from "react-icons/si";
 import {
   DiDebian,
-  DiGoogleCloudPlatform
+  DiGoogleCloudPlatform,
+  DiWindows
 } from "react-icons/di";
 
 
@@ -32,7 +32,7 @@ function Toolstack() {
         <SiLinux />
       </Col>
       <Col xs={4} md={2} className="tech-icons">
-        <SiVisualstudiocode />
+        <SiVsco />
       </Col>
       <Col xs={4} md={2} className="tech-icons">
         <DiDebian />
@@ -80,7 +80,7 @@ function Toolstack() {
         <SiApple />
       </Col>
       <Col xs={4} md={2} className="tech-icons">
-        <SiWindows />
+        <DiWindows />
       </Col>
     </Row>
   );

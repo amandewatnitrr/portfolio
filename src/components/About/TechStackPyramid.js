@@ -11,7 +11,7 @@ import {
   SiFirebase,
   SiArduino,
   SiWolfram,
-  SiJava,
+  SiOpenjdk,
   SiRaspberrypi,
   SiGnubash,
   SiGradle,
@@ -51,7 +51,7 @@ const techStack = [
   [
     { name: "Django", Icon: SiDjango },
     { name: "Python", Icon: DiPython },
-    { name: "Java", Icon: SiJava },
+    { name: "Java", Icon: SiOpenjdk },
     { name: "C++", Icon: CgCPlusPlus },
     { name: "MySQL", Icon: SiMysql },
     { name: "PostgreSQL", Icon: SiPostgresql },

@@ -1,7 +1,7 @@
 import React from "react";
 import {
   SiLinux,
-  SiVisualstudiocode,
+  SiVsco,
   SiPostman,
   SiHeroku,
   SiVercel,
@@ -13,10 +13,9 @@ import {
   SiRaspberrypi,
   SiIntellijidea,
   SiApple,
-  SiWindows,
   SiBlender,
 } from "react-icons/si";
-import { DiDebian, DiGoogleCloudPlatform } from "react-icons/di";
+import { DiDebian, DiGoogleCloudPlatform, DiWindows } from "react-icons/di";
 import { FaRobot } from "react-icons/fa";
 import { TbRobot } from "react-icons/tb";
 
@@ -30,7 +29,7 @@ import { TbRobot } from "react-icons/tb";
 const toolStack = [
   // Row 1 - IDEs, version control, AI coding tools
   [
-    { name: "VS Code", Icon: SiVisualstudiocode },
+    { name: "VS Code", Icon: SiVsco },
     { name: "IntelliJ IDEA", Icon: SiIntellijidea },
     { name: "GitHub", Icon: SiGithub },
     { name: "Claude AI", Icon: FaRobot },
@@ -47,7 +46,7 @@ const toolStack = [
   [
     { name: "Linux", Icon: SiLinux },
     { name: "Debian", Icon: DiDebian },
-    { name: "Windows", Icon: SiWindows },
+    { name: "Windows", Icon: DiWindows },
     { name: "Apple", Icon: SiApple },
   ],
   // Row 4 - creative/design

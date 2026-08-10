@@ -12,7 +12,7 @@ import {
   SiFirebase,
   SiArduino,
   SiWolfram,
-  SiJava,
+  SiOpenjdk,
   SiRaspberrypi,
   SiGnubash,
   SiGradle,
@@ -53,7 +53,7 @@ function Techstack() {
         <FcElectronics />
       </Col>
       <Col xs={4} md={2} className="tech-icons">
-        <SiJava />
+        <SiOpenjdk />
       </Col>
       <Col xs={4} md={2} className="tech-icons">
         <SiGradle />
