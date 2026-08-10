@@ -1276,6 +1276,10 @@ button:focus {
   padding-bottom: 30px;
 }
 
+.techstack-pyramid-section-top {
+  padding-top: 60px;
+}
+
 .techstack-pyramid {
   display: flex;
   flex-direction: column;

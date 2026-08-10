@@ -16,6 +16,16 @@ import {
   SiGnubash,
   SiGradle,
   SiDjango,
+  SiHtml5,
+  SiCss3,
+  SiBootstrap,
+  SiTailwindcss,
+  SiMysql,
+  SiPostgresql,
+  SiGooglecloud,
+  SiDocker,
+  SiKubernetes,
+  SiHelm,
 } from "react-icons/si";
 import { FcElectronics } from "react-icons/fc";
 import { MdDesignServices } from "react-icons/md";
@@ -23,43 +33,58 @@ import { MdDesignServices } from "react-icons/md";
 // Pyramid layout ported from portfolio-website's TechStackNew.tsx -
 // structure/styling only. No video background (kept this page's own
 // BlackholeBackground) and the skill list is this site's own (see
-// Techstack.js), not the source's.
+// Techstack.js), not the source's. Rows are loosely grouped by domain
+// (frontend / backend+languages / cloud+tools / hardware / research)
+// with explicitly-related skills (HTML, CSS, React) kept adjacent.
 const techStack = [
-  // Row 1 - core languages/frameworks (widest)
+  // Row 1 - frontend (widest)
   [
-    { name: "C++", Icon: CgCPlusPlus },
-    { name: "JavaScript", Icon: DiJavascript1 },
-    { name: "Python", Icon: DiPython },
-    { name: "Java", Icon: SiJava },
+    { name: "HTML", Icon: SiHtml5 },
+    { name: "CSS", Icon: SiCss3 },
     { name: "React", Icon: DiReact },
+    { name: "JavaScript", Icon: DiJavascript1 },
+    { name: "Bootstrap", Icon: SiBootstrap },
+    { name: "Tailwind", Icon: SiTailwindcss },
     { name: "Node.js", Icon: DiNodejs },
   ],
-  // Row 2 - backend/tools
+  // Row 2 - backend/languages
   [
     { name: "Django", Icon: SiDjango },
-    { name: "Firebase", Icon: SiFirebase },
+    { name: "Python", Icon: DiPython },
+    { name: "Java", Icon: SiJava },
+    { name: "C++", Icon: CgCPlusPlus },
+    { name: "MySQL", Icon: SiMysql },
+    { name: "PostgreSQL", Icon: SiPostgresql },
+  ],
+  // Row 3 - devops/cloud
+  [
+    { name: "Kubernetes", Icon: SiKubernetes },
+    { name: "Docker", Icon: SiDocker },
+    { name: "Helm", Icon: SiHelm },
+    { name: "GCP", Icon: SiGooglecloud },
     { name: "Git", Icon: DiGit },
     { name: "Bash", Icon: SiGnubash },
-    { name: "Raspberry Pi", Icon: SiRaspberrypi },
   ],
-  // Row 3 - IoT/hardware/research
+  // Row 4 - IoT/hardware/tools
   [
     { name: "Arduino", Icon: SiArduino },
-    { name: "Wolfram", Icon: SiWolfram },
+    { name: "Raspberry Pi", Icon: SiRaspberrypi },
     { name: "Electronics", Icon: FcElectronics },
-  ],
-  // Row 4 - tip of pyramid
-  [
     { name: "Gradle", Icon: SiGradle },
+  ],
+  // Row 5 - tip of pyramid
+  [
+    { name: "Firebase", Icon: SiFirebase },
+    { name: "Wolfram", Icon: SiWolfram },
     { name: "UI/UX Design", Icon: MdDesignServices },
   ],
 ];
 
 function TechStackPyramid() {
   return (
-    <div className="techstack-pyramid-section">
+    <div className="techstack-pyramid-section techstack-pyramid-section-top">
       <h1 className="project-heading">
-        Professional <strong className="purple">Skillset</strong>
+        Technical <strong className="purple">Skillset</strong>
       </h1>
 
       <div className="techstack-pyramid">

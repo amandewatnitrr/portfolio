@@ -2,7 +2,7 @@ import React from "react";
 import { Container } from "react-bootstrap";
 import Github from "./Github";
 import TechStackPyramid from "./TechStackPyramid";
-import Toolstack from "./Toolstack";
+import ToolStackPyramid from "./ToolStackPyramid";
 import BlackholeBackground from "../BlackholeBackground";
 
 function About() {
@@ -14,10 +14,7 @@ function About() {
       <Container>
         <TechStackPyramid />
 
-        <h1 className="project-heading">
-          <strong className="purple">Tools</strong> I use
-        </h1>
-        <Toolstack />
+        <ToolStackPyramid />
 
         <Github />
       </Container>
