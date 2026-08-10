@@ -92,9 +92,7 @@ function SpaceCursor() {
 
   return (
     <>
-      <div ref={dotRef} className="space-cursor">
-        <span className="space-cursor-disk" />
-      </div>
+      <div ref={dotRef} className="space-cursor" />
       <div ref={pulseRef} className="space-cursor-pulse" />
     </>
   );

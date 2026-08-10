@@ -39,42 +39,36 @@
 
 /* Blackhole cursor (SpaceCursor.js) — replaces native cursor on desktop
    pointers when motion is not reduced. Positioned via transform (not
-   left/top) for GPU-accelerated, jank-free tracking. */
+   left/top) for GPU-accelerated, jank-free tracking.
+   Look: solid black event horizon, a bright white-hot ring hugging it,
+   fading out through orange/red into transparent — same banding as a real
+   accretion-disk photo, just compressed into a ~34px dot. Gradient does
+   all the work; box-shadow only adds soft bleed onto the page behind it. */
 .space-cursor {
   position: fixed;
-  top: -12px;
-  left: -12px;
-  width: 24px;
-  height: 24px;
+  top: -17px;
+  left: -17px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  background: #000;
-  box-shadow:
-    0 0 0 3px #ffddaa,
-    0 0 18px 6px rgba(255, 221, 170, 0.85),
-    0 0 32px 12px rgba(255, 170, 100, 0.35);
+  background: radial-gradient(
+    circle at center,
+    #000 0%,
+    #000 29%,
+    #2a0900 32%,
+    #fff6e0 36%,
+    #ffd27a 45%,
+    #ff9a3d 57%,
+    #ff5a1f 70%,
+    rgba(255, 90, 31, 0.25) 85%,
+    rgba(255, 90, 31, 0) 100%
+  );
+  box-shadow: 0 0 22px 6px rgba(255, 130, 50, 0.45);
   pointer-events: none;
   z-index: 9999;
   opacity: 0;
   transition: opacity 0.2s ease;
   will-change: transform;
-}
-
-/* Slowly spinning accretion-disk ring, dashed so the rotation reads. */
-.space-cursor-disk {
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 2px dashed rgba(255, 221, 170, 0.9);
-  animation: space-cursor-spin 3s linear infinite;
-}
-
-@keyframes space-cursor-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 /* Warp-pulse burst on clicking a button/link — a ring that expands out
