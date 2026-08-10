@@ -21,6 +21,7 @@
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
     "three": "^0.185.1",
+    "three-globe": "^2.45.2",
     "typewriter-effect": "^2.18.2",
     "web-vitals": "^2.1.4"
   },

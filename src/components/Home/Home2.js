@@ -1,7 +1,5 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import myImg from "../../Assets/amandewatnitrr.svg";
-import Tilt from "react-parallax-tilt";
 import {
   AiFillGithub,
   AiOutlineTwitter,
@@ -9,56 +7,19 @@ import {
 } from "react-icons/ai";
 import { FaLinkedinIn } from "react-icons/fa";
 import Career from "./Career";
+import BentoGrid from "./Grid/BentoGrid";
+import BentoGridItem from "./Grid/BentoGridItem";
+import { gridItems } from "./Grid/gridData";
 
 function Home2() {
   return (
     <Container fluid className="home-about-section" id="about">
       <Container>
-        <Row>
-          <Col md={8} className="home-about-description">
-            <h1 style={{ fontSize: "2.6em" }}>
-              LET ME <span className="purple"><b> INTRODUCE </b></span> MYSELF
-            </h1>
-            <p className="home-about-body">
-              I code for living, else I got no option. I am not in love with programming but I like it and I have at least learnt
-              something, I think… 🤷‍♂️
-              <br />
-              <br />I am fluent in classics like
-              <i>
-                <b style={{color:""}}> C++, Javascript, Java and Python. </b>
-              </i>
-              <br />
-              <br />
-              My field of Interest's include &nbsp;
-              <i>
-                <b className="purple">Web Development, Electronics </b> and
-                also in areas related to{" "}
-                <b className="purple">
-                  IoT and UI/UX Desiging.
-                </b>
-              </i>
-              <br />
-              <br />
-              Whenever possible, I also apply my passion for developing products
-              with <b className="purple">Node.js</b> and
-              <i>
-                <b className="purple">
-                  {" "}
-                  Modern Javascript Library and Frameworks
-                </b>
-              </i>
-              &nbsp; like
-              <i>
-                <b className="purple"> React.js</b>
-              </i>
-            </p>
-          </Col>
-          <Col md={4} className="myAvtar">
-            <Tilt>
-              <img src={myImg} className="img-fluid" alt="avatar" />
-            </Tilt>
-          </Col>
-        </Row>
+        <BentoGrid>
+          {gridItems.map((item) => (
+            <BentoGridItem key={item.id} {...item} />
+          ))}
+        </BentoGrid>
 
         <Career />
 

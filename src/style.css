@@ -415,17 +415,29 @@ button:focus {
 }
 
 .main-name {
-  color: #00e8ba;
+  background: linear-gradient(0deg, #4f6bff, #ffffff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .Typewriter__wrapper {
   font-size: 1.7em !important;
-  color: #00e8ba !important;
   font-weight: 600 !important;
+  background: linear-gradient(0deg, #4f6bff, #ffffff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 .Typewriter__cursor {
   font-size: 1.9em !important;
-  color: #b562d6 !important;
+  background: linear-gradient(0deg, #4f6bff, #ffffff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 @media (max-width: 767px) {
@@ -559,7 +571,7 @@ button:focus {
   line-height: 1.15em;
   font-weight: 500;
   text-align: center;
-  background: linear-gradient(0deg, #c770f0, #ffffff);
+  background: linear-gradient(0deg, #4f6bff, #ffffff);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -625,7 +637,7 @@ button:focus {
   font-size: 1em;
   text-transform: capitalize;
   margin: 10px 0px;
-  color: var(--imp-text-color);
+  color: #4f6bff;
 }
 
 .career-timeline {
@@ -807,6 +819,273 @@ button:focus {
     place-items: inherit;
     justify-content: left;
   }
+}
+
+/* --------- */
+/* Bento Grid ("Let me introduce myself" cards) */
+/* --------- */
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 20px 0 40px;
+}
+
+@media (min-width: 768px) {
+  .bento-grid {
+    grid-template-columns: repeat(5, 1fr);
+    grid-auto-rows: minmax(10rem, auto);
+    gap: 2rem;
+  }
+}
+
+.bento-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgb(4, 7, 29);
+  background: linear-gradient(90deg, rgba(4, 7, 29, 1) 0%, rgba(12, 14, 35, 1) 100%);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  min-height: 16rem;
+}
+
+.bento-item:hover {
+  box-shadow: 0 20px 45px rgba(79, 107, 255, 0.15);
+}
+
+@media (min-width: 768px) {
+  .bento-item-1 {
+    grid-column: span 3;
+    grid-row: span 4;
+    min-height: 40rem;
+  }
+  .bento-item-2 {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .bento-item-3 {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .bento-item-4 {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+  .bento-item-5 {
+    grid-column: span 3;
+    grid-row: span 2;
+  }
+}
+
+.bento-item-inner {
+  position: relative;
+  height: 100%;
+}
+
+.bento-item-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.bento-item-bg img.bento-img-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.bento-item-bg img.bento-img-corner {
+  height: auto;
+  object-fit: contain;
+  opacity: 0.85;
+}
+
+.bento-spare-img {
+  position: absolute;
+  right: 0;
+  bottom: -20px;
+  width: 208px;
+}
+
+.bento-spare-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.bento-spare-img-5 {
+  width: 100%;
+  opacity: 0.8;
+}
+
+.bento-item-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  min-height: 10rem;
+  height: 100%;
+  padding: 1.25rem;
+  transition: transform 0.2s ease;
+}
+
+@media (min-width: 1024px) {
+  .bento-item-content {
+    padding: 2.5rem;
+  }
+}
+
+.bento-item:hover .bento-item-content {
+  transform: translateX(6px);
+}
+
+.bento-title-end {
+  justify-content: flex-end;
+}
+
+.bento-title-start {
+  justify-content: flex-start;
+}
+
+/* id3 - "My tech stack" text was center-aligned and colliding with the
+   absolutely-positioned pills; moved top-left so pills sit clear below it. */
+.bento-title-3 {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.bento-title-center {
+  justify-content: center;
+}
+
+/* id5 - "justify-center md:justify-start lg:justify-center" from source, copied verbatim */
+.bento-title-5 {
+  justify-content: center;
+  text-align: left;
+}
+
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .bento-title-5 {
+    justify-content: flex-start;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bento-title-5 {
+    justify-content: center;
+  }
+}
+
+.bento-item-description {
+  font-size: 0.875rem;
+  font-weight: 200;
+  color: #c1c2d3;
+  z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .bento-item-description {
+    font-size: 0.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bento-item-description {
+    font-size: 1rem;
+  }
+}
+
+.bento-item-title {
+  max-width: 24rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: white;
+  z-index: 10;
+}
+
+@media (min-width: 1024px) {
+  .bento-item-title {
+    font-size: 1.875rem;
+  }
+}
+
+/* id5's title ("Currently learning Ethical Hacking") is too long for the
+   shared size to stay on one line within the 24rem cap - scaled down. */
+.bento-item-5 .bento-item-title {
+  font-size: 1.1rem;
+  white-space: nowrap;
+}
+
+@media (min-width: 1024px) {
+  .bento-item-5 .bento-item-title {
+    font-size: 1.3rem;
+  }
+}
+
+.bento-img-cover {
+  width: 100%;
+  height: 100%;
+}
+
+.bento-img-corner {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 15rem;
+}
+
+@media (min-width: 768px) {
+  .bento-img-corner {
+    width: 24rem;
+  }
+}
+
+/* id2 - timezone globe */
+.grid-globe-canvas {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 65%;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+/* id3 - tech stack pills. Normal flow + wrap, not absolutely positioned,
+   so the card (grid-auto-rows: minmax(10rem, auto)) grows to fit however
+   many pills there are instead of clipping them off the edge. */
+.tech-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.tech-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 0.5rem;
+  background: #10132e;
+  padding: 0.5rem 0.7rem;
+  text-align: center;
+  font-size: 0.78rem;
+  color: #e4e4f0;
+  white-space: nowrap;
+}
+
+.tech-pill-icon {
+  font-size: 1em;
+  color: #9db4ff;
 }
 
 /* --------- */
